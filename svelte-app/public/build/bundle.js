@@ -5474,9 +5474,9 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-    	let weekday = 3;
-    	let month = 2;
-    	let day = 1;
+    	let weekday;
+    	let month;
+    	let day;
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
