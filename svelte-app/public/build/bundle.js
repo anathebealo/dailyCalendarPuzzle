@@ -3990,10 +3990,11 @@ var app = (function () {
     function create_fragment$6(ctx) {
     	let div_1;
     	let switch_instance;
+    	let div_1_style_value;
     	let current;
     	let mounted;
     	let dispose;
-    	var switch_value = /*ShapeTypes*/ ctx[5][/*pieceId*/ ctx[0]];
+    	var switch_value = /*ShapeTypes*/ ctx[6][/*pieceId*/ ctx[0]];
 
     	function switch_props(ctx) {
     		return { $$inline: true };
@@ -4007,11 +4008,10 @@ var app = (function () {
     		c: function create() {
     			div_1 = element("div");
     			if (switch_instance) create_component(switch_instance.$$.fragment);
-    			attr_dev(div_1, "class", "svgDiv svelte-di8cpn");
-    			set_style(div_1, "top", /*posY*/ ctx[3] * 100 + 50 + "px");
-    			set_style(div_1, "left", /*posX*/ ctx[2] * 100 + 50 + "px");
+    			attr_dev(div_1, "class", "svgDiv svelte-16nx8nh");
+    			attr_dev(div_1, "style", div_1_style_value = "top: " + (/*posY*/ ctx[3] * 100 + 50) + "px; left: " + (/*posX*/ ctx[2] * 100 + 50) + "px; " + /*cssTransformValue*/ ctx[5]);
     			toggle_class(div_1, "onBoard", /*onBoard*/ ctx[1]);
-    			add_location(div_1, file$4, 147, 0, 2631);
+    			add_location(div_1, file$4, 146, 0, 2682);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4023,16 +4023,16 @@ var app = (function () {
     				mount_component(switch_instance, div_1, null);
     			}
 
-    			/*div_1_binding*/ ctx[11](div_1);
+    			/*div_1_binding*/ ctx[12](div_1);
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(div_1, "click", /*toggle*/ ctx[6], false, false, false);
+    				dispose = listen_dev(div_1, "click", /*toggle*/ ctx[7], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (switch_value !== (switch_value = /*ShapeTypes*/ ctx[5][/*pieceId*/ ctx[0]])) {
+    			if (switch_value !== (switch_value = /*ShapeTypes*/ ctx[6][/*pieceId*/ ctx[0]])) {
     				if (switch_instance) {
     					group_outros();
     					const old_component = switch_instance;
@@ -4054,12 +4054,8 @@ var app = (function () {
     				}
     			}
 
-    			if (!current || dirty & /*posY*/ 8) {
-    				set_style(div_1, "top", /*posY*/ ctx[3] * 100 + 50 + "px");
-    			}
-
-    			if (!current || dirty & /*posX*/ 4) {
-    				set_style(div_1, "left", /*posX*/ ctx[2] * 100 + 50 + "px");
+    			if (!current || dirty & /*posY, posX, cssTransformValue*/ 44 && div_1_style_value !== (div_1_style_value = "top: " + (/*posY*/ ctx[3] * 100 + 50) + "px; left: " + (/*posX*/ ctx[2] * 100 + 50) + "px; " + /*cssTransformValue*/ ctx[5])) {
+    				attr_dev(div_1, "style", div_1_style_value);
     			}
 
     			if (dirty & /*onBoard*/ 2) {
@@ -4078,7 +4074,7 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div_1);
     			if (switch_instance) destroy_component(switch_instance);
-    			/*div_1_binding*/ ctx[11](null);
+    			/*div_1_binding*/ ctx[12](null);
     			mounted = false;
     			dispose();
     		}
@@ -4161,7 +4157,9 @@ var app = (function () {
 
     			delta.x = Math.max(Math.min(delta.x, cap), -cap);
     			delta.y = Math.max(Math.min(delta.y, cap), -cap);
-    			cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x})`;
+    			var z = onBoard ? 0 : offBoardAngle;
+    			var scaleP = onBoard ? 100 : 50;
+    			$$invalidate(5, cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x}) rotateZ(${z}deg) scale(${scaleP}%);`);
     			lastPos = currPos;
     		},
     		1
@@ -4183,10 +4181,10 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('pieceId' in $$props) $$invalidate(0, pieceId = $$props.pieceId);
-    		if ('top' in $$props) $$invalidate(7, top = $$props.top);
-    		if ('left' in $$props) $$invalidate(8, left = $$props.left);
-    		if ('offX' in $$props) $$invalidate(9, offX = $$props.offX);
-    		if ('offY' in $$props) $$invalidate(10, offY = $$props.offY);
+    		if ('top' in $$props) $$invalidate(8, top = $$props.top);
+    		if ('left' in $$props) $$invalidate(9, left = $$props.left);
+    		if ('offX' in $$props) $$invalidate(10, offX = $$props.offX);
+    		if ('offY' in $$props) $$invalidate(11, offY = $$props.offY);
     	};
 
     	$$self.$capture_state = () => ({
@@ -4233,17 +4231,17 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ('pieceId' in $$props) $$invalidate(0, pieceId = $$props.pieceId);
-    		if ('top' in $$props) $$invalidate(7, top = $$props.top);
-    		if ('left' in $$props) $$invalidate(8, left = $$props.left);
-    		if ('offX' in $$props) $$invalidate(9, offX = $$props.offX);
-    		if ('offY' in $$props) $$invalidate(10, offY = $$props.offY);
+    		if ('top' in $$props) $$invalidate(8, top = $$props.top);
+    		if ('left' in $$props) $$invalidate(9, left = $$props.left);
+    		if ('offX' in $$props) $$invalidate(10, offX = $$props.offX);
+    		if ('offY' in $$props) $$invalidate(11, offY = $$props.offY);
     		if ('posX' in $$props) $$invalidate(2, posX = $$props.posX);
     		if ('posY' in $$props) $$invalidate(3, posY = $$props.posY);
     		if ('div' in $$props) $$invalidate(4, div = $$props.div);
     		if ('onBoard' in $$props) $$invalidate(1, onBoard = $$props.onBoard);
     		if ('lastPos' in $$props) lastPos = $$props.lastPos;
     		if ('offBoardAngle' in $$props) offBoardAngle = $$props.offBoardAngle;
-    		if ('cssTransformValue' in $$props) cssTransformValue = $$props.cssTransformValue;
+    		if ('cssTransformValue' in $$props) $$invalidate(5, cssTransformValue = $$props.cssTransformValue);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -4251,11 +4249,11 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*onBoard, left, offX*/ 770) {
+    		if ($$self.$$.dirty & /*onBoard, left, offX*/ 1538) {
     			$$invalidate(2, posX = onBoard ? left : offX);
     		}
 
-    		if ($$self.$$.dirty & /*onBoard, top, offY*/ 1154) {
+    		if ($$self.$$.dirty & /*onBoard, top, offY*/ 2306) {
     			$$invalidate(3, posY = onBoard ? top : offY);
     		}
     	};
@@ -4266,6 +4264,7 @@ var app = (function () {
     		posX,
     		posY,
     		div,
+    		cssTransformValue,
     		ShapeTypes,
     		toggle,
     		top,
@@ -4282,10 +4281,10 @@ var app = (function () {
 
     		init(this, options, instance$6, create_fragment$6, safe_not_equal, {
     			pieceId: 0,
-    			top: 7,
-    			left: 8,
-    			offX: 9,
-    			offY: 10
+    			top: 8,
+    			left: 9,
+    			offX: 10,
+    			offY: 11
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -4302,11 +4301,11 @@ var app = (function () {
     			console.warn("<Shape> was created without expected prop 'pieceId'");
     		}
 
-    		if (/*top*/ ctx[7] === undefined && !('top' in props)) {
+    		if (/*top*/ ctx[8] === undefined && !('top' in props)) {
     			console.warn("<Shape> was created without expected prop 'top'");
     		}
 
-    		if (/*left*/ ctx[8] === undefined && !('left' in props)) {
+    		if (/*left*/ ctx[9] === undefined && !('left' in props)) {
     			console.warn("<Shape> was created without expected prop 'left'");
     		}
     	}
@@ -4361,7 +4360,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (84:0) {#each board.piecesOnBoard as piece, pieceIndex}
+    // (100:0) {#each board.piecesOnBoard as piece, pieceIndex}
     function create_each_block$1(ctx) {
     	let shape;
     	let current;
@@ -4404,7 +4403,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(84:0) {#each board.piecesOnBoard as piece, pieceIndex}",
+    		source: "(100:0) {#each board.piecesOnBoard as piece, pieceIndex}",
     		ctx
     	});
 
@@ -4512,7 +4511,15 @@ var app = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ShapesLayer', slots, []);
-    	let offBoardSpots = [{ x: -3, y: 0 }, { x: 8, y: 0 }];
+
+    	let offBoardSpots = [
+    		{ x: -3, y: 0 },
+    		{ x: -3, y: 3 },
+    		{ x: -3, y: 6 },
+    		{ x: 8, y: 0 },
+    		{ x: 8, y: 3 },
+    		{ x: 8, y: 6 }
+    	];
 
     	let board = {
     		board: [

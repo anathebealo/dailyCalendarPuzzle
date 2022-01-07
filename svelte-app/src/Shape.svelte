@@ -117,7 +117,9 @@
 		delta.x = Math.max( Math.min(delta.x, cap), -cap);
 		delta.y = Math.max( Math.min(delta.y, cap), -cap);
 
-		cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x})`
+		var z = onBoard ? 0 : offBoardAngle;
+		var scaleP = onBoard ? 100 : 50;
+		cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x}) rotateZ(${z}deg) scale(${scaleP}%);`
 
 		lastPos = currPos;
 	}, 1);
@@ -132,12 +134,9 @@
   }
   .svgDiv {
     position: absolute;
-	transition: top .3s 0s ease-out, left .3s 0s ease-out, transform .3s 0s ease-in-out;
+	transition: top .3s 0s ease-out, left .3s 0s ease-out, transform .1s 0s ease-out;
 	-webkit-perspective: 240px;
 	perspective: 240px;
-  }
-  .svgDiv:not(.onBoard) {
-	  transform: scale(50%) 
   }
   :global(svg) {
     overflow: visible;
@@ -147,7 +146,7 @@
 
 <div
   class="svgDiv"
-  style="top: {posY * 100 + 50}px; left: {posX * 100 + 50}px;"
+  style="top: {posY * 100 + 50}px; left: {posX * 100 + 50}px; {cssTransformValue}"
   class:onBoard={onBoard}
   on:click={toggle}
   bind:this={div}
