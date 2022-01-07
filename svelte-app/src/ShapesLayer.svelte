@@ -13,6 +13,16 @@
 <script>
 	import Shape from './Shape.svelte';
 	
+	let offBoardSpots = [
+		{
+			x: -3,
+			y: 0
+		},
+		{
+			x: 8,
+			y: 0
+		}
+	]
 	let board = {
 		board: [['empty','empty','empty','empty','empty','empty',undefined],['empty','empty','empty','empty','empty','empty','  '],['empty','empty','empty','empty','empty','empty','empty'],['empty','empty','empty','empty','J7','J7','empty'],['empty','empty','empty','B2','B2','J7','empty'],['empty','empty','empty','B2','B2','J7','empty'],['empty','empty','empty','B2','empty','J7','empty'],[undefined,undefined,undefined,undefined,'empty','empty','empty']],
 		piecesOnBoard: [
@@ -71,6 +81,9 @@
 </script>
 
 <!--Show all pieces that have been placed-->
-{#each board.piecesOnBoard as piece}
-		<Shape pieceId={piece.id} top={piece.topY} left={piece.leftX}/>
+{#each board.piecesOnBoard as piece, pieceIndex}
+		<Shape pieceId={piece.id} top={piece.topY} left={piece.leftX} 
+			offX={offBoardSpots[pieceIndex%offBoardSpots.length].x}
+			offY={offBoardSpots[pieceIndex%offBoardSpots.length].y}
+			/>
 {/each}
