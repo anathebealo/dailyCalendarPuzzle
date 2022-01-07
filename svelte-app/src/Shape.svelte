@@ -85,8 +85,31 @@
 
 	let onBoard = false;
 
+	let changePos;
+	let targetPos;
+	
+	let changeScale = 50;
+	let targetScale = 100;
+	let everToggle;
 	function toggle() {
+		everToggle = true;
 		onBoard = !onBoard;
+		changePos = {
+			x: div.offsetLeft,
+			y: div.offsetTop
+		};
+		changeScale = onBoard ? 100 : 50;
+		targetScale = onBoard ? 50 : 100;
+
+		targetPos = onBoard
+			? {
+				x: coordToPx(left),
+				y: coordToPx(top)
+			}
+			: {
+				x: coordToPx(offX),
+				y: coordToPx(offY)
+			}
 	}
 
 	let lastPos = {
@@ -94,36 +117,45 @@
 		y: posY
 	}
 	let offBoardAngle = Math.random() * 360;
-	let cssTransformValue = '';
+	let cssTransformValue = `transform: scale(${changeScale}%);`;
+	
 	const interval = setInterval(() => {
+		if (!everToggle) return;
 		// get current position;
 		var currPos = {
 			x: div.offsetLeft,
 			y: div.offsetTop
 		}
+		var diff = {
+			x: targetPos.x - currPos.x,
+			y: targetPos.y - currPos.y
+		}
+		var total = {
+			x: targetPos.x - changePos.x,
+			y: targetPos.y - changePos.y
+		}
+		var totalDist = Math.sqrt(Math.pow(total.x, 2) + Math.pow(total.y, 2));
+		var dist = Math.sqrt(Math.pow(diff.x, 2) + Math.pow(diff.y, 2));
+		var normal = {
+			x: diff.x / dist,
+			y: diff.y / dist
+		}
 
-		var delta = {
-			x: currPos.x - lastPos.x,
-			y: currPos.y - lastPos.y
-		};
+		var r = dist / totalDist;
 
-
-
-		delta.x *= 1;
-		delta.y *= 10;
-
-		// cap the rootation between -15 and 15.
-		var cap = 15;
-		delta.x = Math.max( Math.min(delta.x, cap), -cap);
-		delta.y = Math.max( Math.min(delta.y, cap), -cap);
+	
+		var degX = 40 * normal.x * Math.sin(r * 3.14 * r * r);
+		var degY = 40 * normal.y * Math.sin(r * 3.14 * r * r);
 
 		var z = onBoard ? 0 : offBoardAngle;
-		var scaleP = onBoard ? 100 : 50;
-		cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x}) rotateZ(${z}deg) scale(${scaleP}%);`
+		var scaleP = changeScale + Math.sin(r * 3.14 * r * r) * r * r * (targetScale - changeScale);
+		
+		cssTransformValue = `transform: rotateY(${degX}deg) rotateX(${degY}deg) rotateZ(${z}deg) scale(${scaleP}%);`
 
 		lastPos = currPos;
 	}, 1);
 
+	function coordToPx(x){return x * 100 + 50;}
 	onDestroy(() => clearInterval(interval));
 
 </script>
@@ -134,9 +166,9 @@
   }
   .svgDiv {
     position: absolute;
-	transition: top .3s 0s ease-out, left .3s 0s ease-out, transform .1s 0s ease-out;
-	-webkit-perspective: 240px;
-	perspective: 240px;
+	transition: top .3s 0s ease-out, left .3s 0s ease-out, transform .3s 0s linear;
+	/* -webkit-perspective: 240px; */
+	perspective: 500px;
   }
   :global(svg) {
     overflow: visible;
@@ -146,7 +178,7 @@
 
 <div
   class="svgDiv"
-  style="top: {posY * 100 + 50}px; left: {posX * 100 + 50}px; {cssTransformValue}"
+  style="top: {coordToPx(posY)}px; left: {coordToPx(posX)}px; {cssTransformValue}"
   class:onBoard={onBoard}
   on:click={toggle}
   bind:this={div}

@@ -4008,10 +4008,10 @@ var app = (function () {
     		c: function create() {
     			div_1 = element("div");
     			if (switch_instance) create_component(switch_instance.$$.fragment);
-    			attr_dev(div_1, "class", "svgDiv svelte-16nx8nh");
-    			attr_dev(div_1, "style", div_1_style_value = "top: " + (/*posY*/ ctx[3] * 100 + 50) + "px; left: " + (/*posX*/ ctx[2] * 100 + 50) + "px; " + /*cssTransformValue*/ ctx[5]);
+    			attr_dev(div_1, "class", "svgDiv svelte-q0bazq");
+    			attr_dev(div_1, "style", div_1_style_value = "top: " + coordToPx(/*posY*/ ctx[3]) + "px; left: " + coordToPx(/*posX*/ ctx[2]) + "px; " + /*cssTransformValue*/ ctx[5]);
     			toggle_class(div_1, "onBoard", /*onBoard*/ ctx[1]);
-    			add_location(div_1, file$4, 146, 0, 2682);
+    			add_location(div_1, file$4, 178, 0, 3481);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4054,7 +4054,7 @@ var app = (function () {
     				}
     			}
 
-    			if (!current || dirty & /*posY, posX, cssTransformValue*/ 44 && div_1_style_value !== (div_1_style_value = "top: " + (/*posY*/ ctx[3] * 100 + 50) + "px; left: " + (/*posX*/ ctx[2] * 100 + 50) + "px; " + /*cssTransformValue*/ ctx[5])) {
+    			if (!current || dirty & /*posY, posX, cssTransformValue*/ 44 && div_1_style_value !== (div_1_style_value = "top: " + coordToPx(/*posY*/ ctx[3]) + "px; left: " + coordToPx(/*posX*/ ctx[2]) + "px; " + /*cssTransformValue*/ ctx[5])) {
     				attr_dev(div_1, "style", div_1_style_value);
     			}
 
@@ -4089,6 +4089,10 @@ var app = (function () {
     	});
 
     	return block;
+    }
+
+    function coordToPx(x) {
+    	return x * 100 + 50;
     }
 
     function instance$6($$self, $$props, $$invalidate) {
@@ -4130,36 +4134,54 @@ var app = (function () {
     	let posY = top;
     	let div;
     	let onBoard = false;
+    	let changePos;
+    	let targetPos;
+    	let changeScale = 50;
+    	let targetScale = 100;
+    	let everToggle;
 
     	function toggle() {
+    		everToggle = true;
     		$$invalidate(1, onBoard = !onBoard);
+    		changePos = { x: div.offsetLeft, y: div.offsetTop };
+    		changeScale = onBoard ? 100 : 50;
+    		targetScale = onBoard ? 50 : 100;
+
+    		targetPos = onBoard
+    		? { x: coordToPx(left), y: coordToPx(top) }
+    		: { x: coordToPx(offX), y: coordToPx(offY) };
     	}
 
     	let lastPos = { x: posX, y: posY };
     	let offBoardAngle = Math.random() * 360;
-    	let cssTransformValue = '';
+    	let cssTransformValue = `transform: scale(${changeScale}%);`;
 
     	const interval = setInterval(
     		() => {
+    			if (!everToggle) return;
+
     			// get current position;
     			var currPos = { x: div.offsetLeft, y: div.offsetTop };
 
-    			var delta = {
-    				x: currPos.x - lastPos.x,
-    				y: currPos.y - lastPos.y
+    			var diff = {
+    				x: targetPos.x - currPos.x,
+    				y: targetPos.y - currPos.y
     			};
 
-    			delta.x *= 1;
-    			delta.y *= 10;
+    			var total = {
+    				x: targetPos.x - changePos.x,
+    				y: targetPos.y - changePos.y
+    			};
 
-    			// cap the rootation between -15 and 15.
-    			var cap = 15;
-
-    			delta.x = Math.max(Math.min(delta.x, cap), -cap);
-    			delta.y = Math.max(Math.min(delta.y, cap), -cap);
+    			var totalDist = Math.sqrt(Math.pow(total.x, 2) + Math.pow(total.y, 2));
+    			var dist = Math.sqrt(Math.pow(diff.x, 2) + Math.pow(diff.y, 2));
+    			var normal = { x: diff.x / dist, y: diff.y / dist };
+    			var r = dist / totalDist;
+    			var degX = 40 * normal.x * Math.sin(r * 3.14 * r * r);
+    			var degY = 40 * normal.y * Math.sin(r * 3.14 * r * r);
     			var z = onBoard ? 0 : offBoardAngle;
-    			var scaleP = onBoard ? 100 : 50;
-    			$$invalidate(5, cssTransformValue = `transform: rotateY(${delta.y}deg) rotateX(${delta.x}) rotateZ(${z}deg) scale(${scaleP}%);`);
+    			var scaleP = changeScale + Math.sin(r * 3.14 * r * r) * r * r * (targetScale - changeScale);
+    			$$invalidate(5, cssTransformValue = `transform: rotateY(${degX}deg) rotateX(${degY}deg) rotateZ(${z}deg) scale(${scaleP}%);`);
     			lastPos = currPos;
     		},
     		1
@@ -4222,11 +4244,17 @@ var app = (function () {
     		posY,
     		div,
     		onBoard,
+    		changePos,
+    		targetPos,
+    		changeScale,
+    		targetScale,
+    		everToggle,
     		toggle,
     		lastPos,
     		offBoardAngle,
     		cssTransformValue,
-    		interval
+    		interval,
+    		coordToPx
     	});
 
     	$$self.$inject_state = $$props => {
@@ -4239,6 +4267,11 @@ var app = (function () {
     		if ('posY' in $$props) $$invalidate(3, posY = $$props.posY);
     		if ('div' in $$props) $$invalidate(4, div = $$props.div);
     		if ('onBoard' in $$props) $$invalidate(1, onBoard = $$props.onBoard);
+    		if ('changePos' in $$props) changePos = $$props.changePos;
+    		if ('targetPos' in $$props) targetPos = $$props.targetPos;
+    		if ('changeScale' in $$props) changeScale = $$props.changeScale;
+    		if ('targetScale' in $$props) targetScale = $$props.targetScale;
+    		if ('everToggle' in $$props) everToggle = $$props.everToggle;
     		if ('lastPos' in $$props) lastPos = $$props.lastPos;
     		if ('offBoardAngle' in $$props) offBoardAngle = $$props.offBoardAngle;
     		if ('cssTransformValue' in $$props) $$invalidate(5, cssTransformValue = $$props.cssTransformValue);
@@ -5183,7 +5216,7 @@ var app = (function () {
     			create_component(baseboard.$$.fragment);
     			t1 = space();
     			create_component(shapeslayer.$$.fragment);
-    			attr_dev(div, "class", "center svelte-5bg9zb");
+    			attr_dev(div, "class", "center svelte-krb9ts");
     			add_location(div, file, 7, 2, 182);
     		},
     		l: function claim(nodes) {

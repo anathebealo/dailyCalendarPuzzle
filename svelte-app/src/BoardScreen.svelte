@@ -15,5 +15,6 @@
     position:relative;
     width: 850px;
     margin: auto;
+    perspective: 500px
 	}
 </style>
