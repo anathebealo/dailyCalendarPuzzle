@@ -1,10 +1,15 @@
 <div style="text-align: center">
   <h1>Puzzle of the Day</h1>
   <div class=flexRow>
+    <button class=green on:click={clearData()}>Back To Home</button>
     <button class=blue>Hint</button>
     <button class=yellow>Solve</button>
   </div>
 </div>
+
+<script>
+  export let clearData;
+</script>
 
 <style>
   .flexRow {
@@ -26,6 +31,13 @@
     display: inline-block;
     cursor: pointer;
     border: none;
+  }
+  .green {
+    background-color: #47c551;
+    box-shadow: 0px 5px 0px 0px #3cb146;
+  }
+  .green:hover {
+    background-color: #59ed65;
   }
   .blue {
     background-color: #55acee;

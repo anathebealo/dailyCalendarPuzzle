@@ -1,4 +1,4 @@
-<svg width="100%" height="100%" viewBox="0 0 155 105" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+<svg width="300px" height="100%" viewBox="0 0 155 105" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
   <g transform="matrix(1,0,0,1,-1521.89,-1386.94)">
       <g>
           <g transform="matrix(-6.16264e-17,1.00643,1,6.12323e-17,1300.32,973.308)">

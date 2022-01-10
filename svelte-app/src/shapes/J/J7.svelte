@@ -1,4 +1,4 @@
-	<svg width="200px" height="100%" viewBox="0 0 105 205">
+	<svg width="206px" height="100%" viewBox="0 0 105 205">
     <g transform="matrix(1,0,0,1,-165.527,-1924.63)">
         <g>
             <g transform="matrix(1.00704,0,0,0.999829,-98.0876,1704.55)">
