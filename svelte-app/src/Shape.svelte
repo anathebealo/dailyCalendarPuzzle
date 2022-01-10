@@ -155,7 +155,6 @@
 	$: posY = onBoard ? top : offY;
 	
 	let onBoard = false;
-	
 	let changePos;
 	let targetPos;
 	
@@ -209,16 +208,21 @@
 			x: diff.x / dist,
 			y: diff.y / dist
 		}
+
 		var r = dist / totalDist;
+
 	
 		var degX = 40 * normal.x * Math.sin(r * 3.14 * r * r);
 		var degY = 40 * normal.y * Math.sin(r * 3.14 * r * r);
+
 		var z = onBoard ? 0 : offBoardAngle;
 		var scaleP = changeScale + Math.sin(r * 3.14 * r * r) * r * r * (targetScale - changeScale);
 		
 		cssTransformValue = `transform: rotateY(${degX}deg) rotateX(${degY}deg) rotateZ(${z}deg) scale(${scaleP}%);`
+
 		lastPos = currPos;
 	}, 1);
+
 	function coordToPx(x){return x * 100 + 50;}
 	onDestroy(() => clearInterval(interval));
 </script>

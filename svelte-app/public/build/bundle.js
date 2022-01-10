@@ -9085,7 +9085,7 @@ var app = (function () {
     			attr_dev(div_1, "class", "svgDiv svelte-1dou8pm");
     			attr_dev(div_1, "style", div_1_style_value = "top: " + coordToPx(/*posY*/ ctx[3]) + "px; left: " + coordToPx(/*posX*/ ctx[2]) + "px; " + /*cssTransformValue*/ ctx[5]);
     			toggle_class(div_1, "onBoard", /*onBoard*/ ctx[1]);
-    			add_location(div_1, file$5, 240, 0, 5035);
+    			add_location(div_1, file$5, 244, 0, 5038);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -9531,7 +9531,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (29:0) {#each Object.values(board.locations) as piece, pieceIndex}
+    // (45:0) {#each Object.values(board.locations) as piece, pieceIndex}
     function create_each_block$1(ctx) {
     	let shape;
     	let current;
@@ -9580,7 +9580,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(29:0) {#each Object.values(board.locations) as piece, pieceIndex}",
+    		source: "(45:0) {#each Object.values(board.locations) as piece, pieceIndex}",
     		ctx
     	});
 
@@ -9689,7 +9689,16 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ShapesLayer', slots, []);
     	let { board } = $$props;
-    	let offBoardSpots = [{ x: -3, y: 0 }, { x: 8, y: 0 }];
+
+    	let offBoardSpots = [
+    		{ x: -3, y: 0 },
+    		{ x: -3, y: 3 },
+    		{ x: -3, y: 6 },
+    		{ x: 8, y: 0 },
+    		{ x: 8, y: 3 },
+    		{ x: 8, y: 6 }
+    	];
+
     	const writable_props = ['board'];
 
     	Object_1.keys($$props).forEach(key => {
