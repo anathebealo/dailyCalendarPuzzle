@@ -2,9 +2,6 @@
 	:global(body) {
 		padding: 0px;
 	}
-	.svgDiv {
-		position: absolute;
-	}
 	:global(svg) {
 		overflow: visible;
 	}

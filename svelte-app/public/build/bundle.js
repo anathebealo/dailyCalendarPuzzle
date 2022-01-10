@@ -9531,7 +9531,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (45:0) {#each Object.values(board.locations) as piece, pieceIndex}
+    // (42:0) {#each Object.values(board.locations) as piece, pieceIndex}
     function create_each_block$1(ctx) {
     	let shape;
     	let current;
@@ -9580,7 +9580,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(45:0) {#each Object.values(board.locations) as piece, pieceIndex}",
+    		source: "(42:0) {#each Object.values(board.locations) as piece, pieceIndex}",
     		ctx
     	});
 
