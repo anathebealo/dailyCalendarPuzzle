@@ -1,14 +1,16 @@
 <div style="text-align: center">
   <h1>Puzzle of the Day</h1>
+  <h2>{dateString}</h2>
   <div class=flexRow>
     <button class=green on:click={clearData()}>Back To Home</button>
-    <button class=blue>Hint</button>
-    <button class=yellow>Solve</button>
+    <!-- <button class=blue>Hint</button>
+    <button class=yellow>Solve</button> -->
   </div>
 </div>
 
 <script>
   export let clearData;
+  export let dateString;
 </script>
 
 <style>
@@ -39,7 +41,7 @@
   .green:hover {
     background-color: #59ed65;
   }
-  .blue {
+  /* .blue {
     background-color: #55acee;
     box-shadow: 0px 5px 0px 0px #3c93d5;
   }
@@ -52,5 +54,5 @@
   }
   .yellow:hover {
     background-color: #FFDE29;
-  }
+  } */
 </style>

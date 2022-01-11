@@ -1,7 +1,7 @@
 {#if (!weekday && !month && !day && !year)}
 	<HomeScreen bind:weekday bind:month bind:day bind:year bind:boards/>
 {:else if boards[year][month][day] }
-	<BoardScreen board={boards[year][month][day]} clearData={clearData}/>
+	<BoardScreen board={boards[year][month][day]} clearData={clearData} dateString={`${weekday} ${month} ${day}`}/>
 {:else if !boards[year][month][day]} 
 	<HomeScreen bind:weekday bind:month bind:day bind:year bind:boards/>
 	<h1>Date does not have a board solution yet. Please pick another :(</h1>

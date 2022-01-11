@@ -10248,12 +10248,11 @@ var app = (function () {
     	let div1;
     	let h1;
     	let t1;
-    	let div0;
-    	let button0;
+    	let h2;
+    	let t2;
     	let t3;
-    	let button1;
-    	let t5;
-    	let button2;
+    	let div0;
+    	let button;
     	let mounted;
     	let dispose;
 
@@ -10263,24 +10262,18 @@ var app = (function () {
     			h1 = element("h1");
     			h1.textContent = "Puzzle of the Day";
     			t1 = space();
-    			div0 = element("div");
-    			button0 = element("button");
-    			button0.textContent = "Back To Home";
+    			h2 = element("h2");
+    			t2 = text(/*dateString*/ ctx[1]);
     			t3 = space();
-    			button1 = element("button");
-    			button1.textContent = "Hint";
-    			t5 = space();
-    			button2 = element("button");
-    			button2.textContent = "Solve";
+    			div0 = element("div");
+    			button = element("button");
+    			button.textContent = "Back To Home";
     			add_location(h1, file$2, 1, 2, 35);
-    			attr_dev(button0, "class", "green svelte-udi9pj");
-    			add_location(button0, file$2, 3, 4, 88);
-    			attr_dev(button1, "class", "blue svelte-udi9pj");
-    			add_location(button1, file$2, 4, 4, 157);
-    			attr_dev(button2, "class", "yellow svelte-udi9pj");
-    			add_location(button2, file$2, 5, 4, 194);
-    			attr_dev(div0, "class", "flexRow svelte-udi9pj");
-    			add_location(div0, file$2, 2, 2, 64);
+    			add_location(h2, file$2, 2, 2, 64);
+    			attr_dev(button, "class", "green svelte-a76hxd");
+    			add_location(button, file$2, 4, 4, 112);
+    			attr_dev(div0, "class", "flexRow svelte-a76hxd");
+    			add_location(div0, file$2, 3, 2, 88);
     			set_style(div1, "text-align", "center");
     			add_location(div1, file$2, 0, 0, 0);
     		},
@@ -10291,16 +10284,15 @@ var app = (function () {
     			insert_dev(target, div1, anchor);
     			append_dev(div1, h1);
     			append_dev(div1, t1);
+    			append_dev(div1, h2);
+    			append_dev(h2, t2);
+    			append_dev(div1, t3);
     			append_dev(div1, div0);
-    			append_dev(div0, button0);
-    			append_dev(div0, t3);
-    			append_dev(div0, button1);
-    			append_dev(div0, t5);
-    			append_dev(div0, button2);
+    			append_dev(div0, button);
 
     			if (!mounted) {
     				dispose = listen_dev(
-    					button0,
+    					button,
     					"click",
     					function () {
     						if (is_function(/*clearData*/ ctx[0]())) /*clearData*/ ctx[0]().apply(this, arguments);
@@ -10315,6 +10307,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, [dirty]) {
     			ctx = new_ctx;
+    			if (dirty & /*dateString*/ 2) set_data_dev(t2, /*dateString*/ ctx[1]);
     		},
     		i: noop,
     		o: noop,
@@ -10340,7 +10333,8 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('BoardHeader', slots, []);
     	let { clearData } = $$props;
-    	const writable_props = ['clearData'];
+    	let { dateString } = $$props;
+    	const writable_props = ['clearData', 'dateString'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<BoardHeader> was created with unknown prop '${key}'`);
@@ -10348,25 +10342,27 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('clearData' in $$props) $$invalidate(0, clearData = $$props.clearData);
+    		if ('dateString' in $$props) $$invalidate(1, dateString = $$props.dateString);
     	};
 
-    	$$self.$capture_state = () => ({ clearData });
+    	$$self.$capture_state = () => ({ clearData, dateString });
 
     	$$self.$inject_state = $$props => {
     		if ('clearData' in $$props) $$invalidate(0, clearData = $$props.clearData);
+    		if ('dateString' in $$props) $$invalidate(1, dateString = $$props.dateString);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [clearData];
+    	return [clearData, dateString];
     }
 
     class BoardHeader extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { clearData: 0 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { clearData: 0, dateString: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -10381,6 +10377,10 @@ var app = (function () {
     		if (/*clearData*/ ctx[0] === undefined && !('clearData' in props)) {
     			console.warn("<BoardHeader> was created without expected prop 'clearData'");
     		}
+
+    		if (/*dateString*/ ctx[1] === undefined && !('dateString' in props)) {
+    			console.warn("<BoardHeader> was created without expected prop 'dateString'");
+    		}
     	}
 
     	get clearData() {
@@ -10388,6 +10388,14 @@ var app = (function () {
     	}
 
     	set clearData(value) {
+    		throw new Error("<BoardHeader>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get dateString() {
+    		throw new Error("<BoardHeader>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set dateString(value) {
     		throw new Error("<BoardHeader>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -10405,7 +10413,10 @@ var app = (function () {
     	let current;
 
     	boardheader = new BoardHeader({
-    			props: { clearData: /*clearData*/ ctx[1] },
+    			props: {
+    				clearData: /*clearData*/ ctx[1],
+    				dateString: /*dateString*/ ctx[2]
+    			},
     			$$inline: true
     		});
 
@@ -10425,7 +10436,7 @@ var app = (function () {
     			t1 = space();
     			create_component(shapeslayer.$$.fragment);
     			attr_dev(div, "class", "center svelte-krb9ts");
-    			add_location(div, file$1, 10, 0, 247);
+    			add_location(div, file$1, 11, 0, 297);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -10442,6 +10453,7 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const boardheader_changes = {};
     			if (dirty & /*clearData*/ 2) boardheader_changes.clearData = /*clearData*/ ctx[1];
+    			if (dirty & /*dateString*/ 4) boardheader_changes.dateString = /*dateString*/ ctx[2];
     			boardheader.$set(boardheader_changes);
     			const shapeslayer_changes = {};
     			if (dirty & /*board*/ 1) shapeslayer_changes.board = /*board*/ ctx[0];
@@ -10485,7 +10497,8 @@ var app = (function () {
     	validate_slots('BoardScreen', slots, []);
     	let { board } = $$props;
     	let { clearData } = $$props;
-    	const writable_props = ['board', 'clearData'];
+    	let { dateString } = $$props;
+    	const writable_props = ['board', 'clearData', 'dateString'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<BoardScreen> was created with unknown prop '${key}'`);
@@ -10494,11 +10507,13 @@ var app = (function () {
     	$$self.$$set = $$props => {
     		if ('board' in $$props) $$invalidate(0, board = $$props.board);
     		if ('clearData' in $$props) $$invalidate(1, clearData = $$props.clearData);
+    		if ('dateString' in $$props) $$invalidate(2, dateString = $$props.dateString);
     	};
 
     	$$self.$capture_state = () => ({
     		board,
     		clearData,
+    		dateString,
     		ShapesLayer,
     		BaseBoard,
     		BoardHeader
@@ -10507,19 +10522,20 @@ var app = (function () {
     	$$self.$inject_state = $$props => {
     		if ('board' in $$props) $$invalidate(0, board = $$props.board);
     		if ('clearData' in $$props) $$invalidate(1, clearData = $$props.clearData);
+    		if ('dateString' in $$props) $$invalidate(2, dateString = $$props.dateString);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [board, clearData];
+    	return [board, clearData, dateString];
     }
 
     class BoardScreen extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { board: 0, clearData: 1 });
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { board: 0, clearData: 1, dateString: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -10538,6 +10554,10 @@ var app = (function () {
     		if (/*clearData*/ ctx[1] === undefined && !('clearData' in props)) {
     			console.warn("<BoardScreen> was created without expected prop 'clearData'");
     		}
+
+    		if (/*dateString*/ ctx[2] === undefined && !('dateString' in props)) {
+    			console.warn("<BoardScreen> was created without expected prop 'dateString'");
+    		}
     	}
 
     	get board() {
@@ -10553,6 +10573,14 @@ var app = (function () {
     	}
 
     	set clearData(value) {
+    		throw new Error("<BoardScreen>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get dateString() {
+    		throw new Error("<BoardScreen>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set dateString(value) {
     		throw new Error("<BoardScreen>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -10627,7 +10655,7 @@ var app = (function () {
     			t0 = space();
     			h1 = element("h1");
     			h1.textContent = "Date does not have a board solution yet. Please pick another :(";
-    			add_location(h1, file, 6, 1, 331);
+    			add_location(h1, file, 6, 1, 373);
     		},
     		m: function mount(target, anchor) {
     			mount_component(homescreen, target, anchor);
@@ -10705,7 +10733,8 @@ var app = (function () {
     	boardscreen = new BoardScreen({
     			props: {
     				board: /*boards*/ ctx[4][/*year*/ ctx[3]][/*month*/ ctx[1]][/*day*/ ctx[2]],
-    				clearData: /*clearData*/ ctx[5]
+    				clearData: /*clearData*/ ctx[5],
+    				dateString: `${/*weekday*/ ctx[0]} ${/*month*/ ctx[1]} ${/*day*/ ctx[2]}`
     			},
     			$$inline: true
     		});
@@ -10721,6 +10750,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const boardscreen_changes = {};
     			if (dirty & /*boards, year, month, day*/ 30) boardscreen_changes.board = /*boards*/ ctx[4][/*year*/ ctx[3]][/*month*/ ctx[1]][/*day*/ ctx[2]];
+    			if (dirty & /*weekday, month, day*/ 7) boardscreen_changes.dateString = `${/*weekday*/ ctx[0]} ${/*month*/ ctx[1]} ${/*day*/ ctx[2]}`;
     			boardscreen.$set(boardscreen_changes);
     		},
     		i: function intro(local) {
